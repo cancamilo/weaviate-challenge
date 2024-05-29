@@ -33,7 +33,11 @@ This script will save a the [data/articles.csv](/data/articles.csv) file replaci
 ## Loading data to weaviate
 
 Use the [load_weaviate.py](/load_weaviate.py) script for loading the data (articles.csv) from the steps before.
-This script will create the Articles collection in Weaviate and insert the documents.
+This script will create the Articles collection in Weaviate and insert the documents:
+
+```
+poetry run data_extraction.py
+```
 
 ## Running the demo
 
@@ -46,27 +50,35 @@ Run the frontend:
 make run-frontend
 ```
 
-Backend:
+in a new terminal run the backend:
 
 ```
 make run-backend
 ```
 
+Note that everything is running in development mode. 
+
 ## RAG description
 
 The RAG consists of the following steps:
 
-1. From the given initial query, extract metadata. In this case, I extract the date from the query if any and the cryptocurrency mentioned. This information will be used for filtering the search results.
+1. From the given initial query, extract metadata. In this case, I extract the date from the query if any and the cryptocurrency mentioned. This information will be used for filtering the search results. The extraction of metadata is achieved using OpenAI function calling.
 
 2. Given the user query, generate 5 additional queries to make the search more extensive.
 
-3. Send the query to Weaviate using reranking of the results.
+3. Send each of the queries generated above to Weaviate using the filters and a near text search. Merge all the resulting hits from each query, remove duplicates, order by distance and select the top 5 only.
+
+5. Prompt OpenAI to answer the user query providing the context found above.
 
 See [this notebook for reference](/notebooks/rag.ipynb)
 
-## Starting the application
-
 ## Possible enhancements
+
+- Dockerize everything
+- Add more news sources as right now the dataset is limited to a few hundred articles.
+- Add a NER module to extract entities from the articles. This would enable filtering by different kind of tags during search.
+- Add endpoint to compute the sentiment of the market based on the news.
+- Dspy
 
 
 

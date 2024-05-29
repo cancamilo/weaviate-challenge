@@ -27,7 +27,6 @@ class DataRetriever:
     def _search_single_query(
         self, generated_query: str, currency: str, date: str, k: int
     ):
-        assert k > 3, "k should be greater than 3"
         
         articles = self.weaviate_client.collections.get("Articles")
         response = None
@@ -38,7 +37,7 @@ class DataRetriever:
                 response = articles.query.near_text(
                     query=generated_query,
                     limit=k,
-                    filters=Filter.by_property("published_at").equal("2024-05-28"),
+                    filters=Filter.by_property("published_at").equal(date),
                     return_metadata=MetadataQuery(distance=True)
                 )
             else:
@@ -46,7 +45,6 @@ class DataRetriever:
                 response = articles.query.near_text(
                     query=generated_query,
                     limit=k,
-                    filters=Filter.by_property("published_at").equal("2024-05-28"),
                     return_metadata=MetadataQuery(distance=True)
                 )
         except Exception as e:
@@ -86,8 +84,11 @@ class DataRetriever:
                 task.result() for task in concurrent.futures.as_completed(search_tasks)
             ]
             hits = utils.flatten(hits)
-            hits = utils.sort_by_distance(hits)
             hits = utils.remove_duplicates(hits)
+            hits = utils.sort_by_distance(hits)
+
+            # Extract top k
+            hits = hits[:k]
 
         logger.info("All documents retrieved successfully.", num_documents=len(hits))
         context = "/n".join([hit["content"] for hit in hits])

@@ -4,6 +4,8 @@ from llm_components.chain import GeneralChain
 from llm_components.prompt_templates import QueryExpansionTemplate
 
 class QueryExpansion:
+    """Generate multiple versions of the user query 
+    """
     @staticmethod
     def generate_response(query: str, to_expand_to_n: int) -> list[str]:
         query_expansion_template = QueryExpansionTemplate()
