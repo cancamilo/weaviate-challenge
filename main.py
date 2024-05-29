@@ -42,7 +42,7 @@ def root():
 @app.post("/search")
 def rag_search(search_query: SearchQuery):
     try:
-        answer, hits = DataRetriever(weaviate_client=app.state.client, query=search_query.query).retrieve_top_k(k=10, to_expand_to_n_queries=2)
+        answer, hits = DataRetriever(weaviate_client=app.state.client, query=search_query.query).retrieve_top_k(k=7, to_expand_to_n_queries=2)
         return {
             "status": 200, 
             "result": {

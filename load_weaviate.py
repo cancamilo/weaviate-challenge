@@ -2,6 +2,14 @@ import weaviate
 import weaviate.classes as wvc
 import os
 import pandas as pd
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv()) # read local .env file
 
 client = weaviate.connect_to_wcs(
     cluster_url="news-db-h6x724lk.weaviate.network",
@@ -13,7 +21,7 @@ client = weaviate.connect_to_wcs(
 )
 
 def load_to_weaviate():
-    df = pd.read_csv("../data/articles.csv")
+    df = pd.read_csv("data/articles.csv")
 
     if client.collections.exists("Articles"):
         client.collections.delete("Articles")  # Replace with your collection name
@@ -23,6 +31,8 @@ def load_to_weaviate():
         vectorizer_config=wvc.config.Configure.Vectorizer.text2vec_openai(),  
         generative_config=wvc.config.Configure.Generative.openai()
     )
+
+    logger.info("Created Articles collection")
 
     articles_objs = list()
     for i, d in df.iterrows():
@@ -35,11 +45,14 @@ def load_to_weaviate():
 
     articles = client.collections.get("Articles")
     articles.data.insert_many(articles_objs)
+    return articles
 
 if __name__ == "__main__":
     try:
-        load_to_weaviate()
+        articles = load_to_weaviate()
+        logger.info(f"Succesfully inserted {len(articles)} articles")
     except Exception as e:
-        print("Unable to upload to Weaviate", e)
+        print()
+        logger.warn(f"Unable to upload to Weaviate. {e}")
     finally:
         client.close()

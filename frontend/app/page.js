@@ -5,19 +5,14 @@ import Search from './components/Search';
 
 export default function Home() {
   const answer = ""
-  const hits = [
-    {summary: "In its latest market commentary sent to Telegram channel subscribers on May 28, trading firm QCP Capital dismissed recent “bouts of supply anxiety.", published_at: "10-02-2024"},
-    {summary: "Bitcoin bulls have little to worry about when it comes to the BTC price uptrend, QCP Capital argues.", published_at: "10-02-2024"},
-    {summary: "Low trading fees help traders get the most crypto for their money. This platform is leading the way with commission-free trading.", published_at: "10-02-2024"},
-    {summary: "Need to know what happened in crypto today? Here is the latest news on daily trends and events impacting Bitcoin price, blockchain, DeFi, NFTs, Web3 and crypto regulation.", published_at: "10-02-2024"},
-  ]
+  const hits = []
   const initState = {
     "answer": answer,
     "hits": hits
   }
 
   const commonSearches = ["Bitcoin ETFS", "New partnerships", "Adoption",
-  "Regulatory news", "Macroeconomic events", "FOMO"
+  "Regulatory news", "Macroeconomic events", "New developments"
   ]
 
   const [results, setResults] = useState(initState);
@@ -72,11 +67,11 @@ export default function Home() {
           className="border p-4 rounded-lg cursor-pointer w-full" 
           onClick={() => setExpandedItemIndex(index === expandedItemIndex ? null : index)}>
             <h2 className="font-bold mb-2">
-                  {result.summary.substring(0, 50) + "..."}
+                  {result.title}
             </h2>
             {index === expandedItemIndex && 
               <div className="mt-2 text-left">
-                {result.summary}
+                {result.content}
               </div>
             }
             <p className="text-sm text-gray-500">{result.published_at}</p>

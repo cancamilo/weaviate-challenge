@@ -3,11 +3,11 @@ help:
 
 .PHONY: extract-data
 extract-data:
-	@poetry run backfill
+	@poetry run python backfill
 
 .PHONY: load-data
 load-data:
-	@poetry run load_weaviate.py
+	@poetry run python load_weaviate.py
 
 .PHONY: test-endpoint
 test-endpoint: 

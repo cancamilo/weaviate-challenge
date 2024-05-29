@@ -11,9 +11,7 @@ export default function Search({ onSearch, searchTerm, isLoading }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     await onSearch(localSearchTerm);
-    setIsLoading(false);
   };
 
   return (

@@ -2,13 +2,13 @@
 
 In this challenge I developed an application that enables users to perform retrieval augmented generation on a set of the latest cryptocurrency news. The user simply enters a text about cryptocurrencies into the search input and gets an answer to their query together with the context that was used to generate that answer.
 
-The data is scrapped fromn cryptocurrency news articles, postprocessed  and uploaded to a Managed Weaviate cluster. 
+The data is scrapped from cryptocurrency news articles, postprocessed  and uploaded to a Managed Weaviate cluster. 
 
 Along with the data extraction scripts, the repo also provides a simple demo frontend application that communicates with a REST API to access the Weaviate client.
 
 ## Requirements:
 
-For running this demo you need to have **node** installed in your system for running the frontend and **poetry** for managing the python dependencies. Also, you need an OPEN_AI_KEY and a weaviate cluster running. The following environemnt variables must be set:
+For running this demo you need to have **node** installed in your system for running the frontend and **poetry** for managing the python dependencies and running the backend REST API service. Also, you need an OPENAI_KEY and a weaviate cluster running. The following environemnt variables must be set:
 
 
 ```
@@ -25,7 +25,7 @@ OPENAI_API_KEY="YOUR OPENAI API KEY"
 You can either generate the data yourself by running the [backfill.py script](/backfill.py):
 
 ```
-poetry run backfill.py
+poetry run python backfill.py
 ```
 
 This script will save a the [data/articles.csv](/data/articles.csv) file replacing the existing one.
@@ -36,7 +36,7 @@ Use the [load_weaviate.py](/load_weaviate.py) script for loading the data (artic
 This script will create the Articles collection in Weaviate and insert the documents:
 
 ```
-poetry run data_extraction.py
+poetry run python data_extraction.py
 ```
 
 ## Running the demo
