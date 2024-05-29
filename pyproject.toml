@@ -30,6 +30,7 @@ pandas = "^2.2.2"
 weaviate-client = "^4.6.3"
 fastapi = "^0.111.0"
 uvicorn = "^0.30.0"
+telethon = "^1.35.0"
 
 
 

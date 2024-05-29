@@ -4,7 +4,6 @@ import logging
 import pandas as pd
 from typing import Any
 from datetime import datetime, timedelta
-from models.documents import ArticleDocument
 from crawlers import CoinTelegraphCrawler
 
 
@@ -22,23 +21,27 @@ def backfill():
     start_dt = datetime.now() - timedelta(days=200)
     end_dt = datetime.now()
     ct_articles = coin_crawler.extract(
-        n_scrolls=50, 
+        n_scrolls=100, 
         start_date=start_dt.strftime(date_format),
         end_date=end_dt.strftime(date_format)
     )
     save_as_df(ct_articles)
+    return ct_articles
 
 def daily():
     """ Extract articles for the current date only
     """
     ct_articles = coin_crawler.extract(n_scrolls=10)
     save_as_df(ct_articles)
+    return ct_articles
 
 def save_as_df(articles):
     df = pd.DataFrame.from_records([article.model_dump() for article in articles])
-    df.to_csv("data/articles.csv")
-
-
+    df.to_csv("data/articles_1.csv", index=False)
 
 if __name__ == "__main__":
-    daily()
+    try:
+        backfill()
+    except Exception as e:
+        print("Unable to extract articles", e)
+
