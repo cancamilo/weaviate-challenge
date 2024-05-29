@@ -43,3 +43,22 @@ body {
 .input-box {
   width: 400px;
 }
+
+.answer-box {
+  max-width: 700px;
+}
+
+.coin {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: relative;
+  background: linear-gradient(to bottom, #ffcc00 0%, #ffcc00 40%, #333 40%, #333 60%, #ffcc00 60%, #ffcc00 100%);
+  animation: spin 3s infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotateY(0deg); }
+  50% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}

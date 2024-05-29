@@ -1,26 +1,36 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function Search({ onSearch }) {
-  const [term, setTerm] = useState('');
+export default function Search({ onSearch, searchTerm, isLoading }) {
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
 
-  const onSubmit = (e) => {
+  useEffect(() => {
+    setLocalSearchTerm(searchTerm);
+  }, [searchTerm]);
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    onSearch(term);
+    setIsLoading(true);
+    await onSearch(localSearchTerm);
+    setIsLoading(false);
   };
 
   return (
     <form onSubmit={onSubmit} className='flex items-center'>
       <input
         type="text"
-        value={term}
-        onChange={(e) => setTerm(e.target.value)}
+        value={localSearchTerm}
+        onChange={(e) => setLocalSearchTerm(e.target.value)}
         className="border p-2 rounded input-box"
+        disabled={isLoading}
       />
+      {isLoading ?
+      <div className="bg-green-700 text-white p-2 rounded ml-2"> Loading </div> :
       <button type="submit" className="bg-green-700 text-white p-2 rounded ml-2">
         Search
       </button>
+      }
     </form>
   );
 }
