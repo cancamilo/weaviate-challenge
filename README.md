@@ -6,6 +6,10 @@ The data is scrapped from cryptocurrency news articles, postprocessed  and uploa
 
 Along with the data extraction scripts, the repo also provides a simple demo frontend application that communicates with a REST API to access the Weaviate client.
 
+The part 2.2 of the challenge can be found in a kaggle notebook here:
+
+https://www.kaggle.com/code/camiloramirezf/job-postings-challenge
+
 ## Requirements:
 
 For running this demo you need to have **node** installed in your system for running the frontend and **poetry** for managing the python dependencies and running the backend REST API service. Also, you need an OPENAI_KEY and a weaviate cluster running. The following environemnt variables must be set:
@@ -78,7 +82,8 @@ See [this notebook for reference](/notebooks/rag.ipynb)
 - Add more news sources as right now the dataset is limited to a few hundred articles.
 - Add a NER module to extract entities from the articles. This would enable filtering by different kind of tags during search.
 - Add endpoint to compute the sentiment of the market based on the news.
-- Dspy
+- I used a prompting for query expansion, parameter extraction and RAG. Using DSPy could optimize my prompts to produce better answers.
+- The data is extracted manually by executing a script and batching the results to weaviate. For real time, it would be more beneficial to have a streaming pipeline of news. I am developing such approach [in this repository](https://github.com/cancamilo).
 
 
 
