@@ -26,13 +26,13 @@ OPENAI_API_KEY="YOUR OPENAI API KEY"
 
 ## Generating the Data
 
-You can either generate the data yourself by running the [backfill.py script](/backfill.py):
+You can use the provided csv file [data/articles.csv](/data/articles.csv). Alternatively, you can generate the data yourself by running the [backfill.py script](/backfill.py):
 
 ```
 poetry run python backfill.py
 ```
 
-This script will save a the [data/articles.csv](/data/articles.csv) file replacing the existing one.
+This script will save a new csv file replacing the existing one.  
 
 ## Loading data to weaviate
 
